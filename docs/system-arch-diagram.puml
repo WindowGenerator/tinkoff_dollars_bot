@@ -1,0 +1,22 @@
+@startuml
+package "APIs" {
+    [Telegram Bot API] as TGBOTAPI
+    [Tinkoff ATM API] as TinkoffATMAPI
+}
+package "Tasks" {
+    [ATM Collector Task] as ATMCollTask
+    [Notification Task] as NotTask
+}
+
+[Handlers] as Handlers
+
+ATMCollTask ..-> TinkoffATMAPI: get_atms_periodical
+NotTask ..-> ATMCollTask: get_atm_diffs_for_users
+NotTask ..-> TGBOTAPI: send_to_user_new_info
+
+TGBOTAPI ..-> HTTP: use
+Commands ..-> Handlers
+KeyBoard ..-> Handlers
+Handlers ..-> TGBOTAPI
+
+@enduml
