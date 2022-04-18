@@ -1,20 +1,38 @@
-# TgBotGo
+## Overview
 
-The purpose of this project is to create a base for those who want to build a Telegram bot using Golang.
+Tinkoff Dollars Bot might help you find out about ATMs that carry your currency.
 
+## Roadmap
 
-## How to Run
+- [x] - Write an MVP that should contain: 
+* documentation
+* normal binding with Makefile
+* Commands: (help, start, get_atms (with filters))
 
-If you already have Go installed, just clone this project and install the dependencies of this project
+- [ ] - Making CI work
+- [ ] - Simplify the solution
+- [ ] - Make gorutines for ATMs request
+- [ ] - Get Cache for Cities
+- [ ] - Make background task for have update cache
+- [ ] - Make background notification task (mvp)
+- [ ] - Make command for setup notification task
+- [ ] - Make a normal interface for communication with the bot
 
-You will only need to get the token for your bot given by the BotFather as paste this in the `.env` file
+## Documentation
 
+#### Installation: 
+`make -f Makefile install-deps`
+`make -f Makefile local-build`
 
-## Project Structure
+#### Running (local):
+create .env in workdir and type your telegram bot token
+`./_output/bin/linux/amd64/tinkoff_dollars_bot`
 
-The project contains...
+#### Contibuting (I dont know why upu want to contribute this):
+`make -f Makefile install-deps`
+`make -f Makefile install-instruments`
 
+After edits:
 
-## CI/CD
-
-The project contains some basics configuration for CI/CD. Basically you already have the configuration for the image creation using Docker as the container manager. And for testing purpose the configuration on travis.
+`make -f Makefile local-build`
+`make -f Makefile local-ci`

@@ -45,4 +45,4 @@ _output
 # End of https://www.gitignore.io/api/go
 tinkoff_dollars_bot
 
-.env/
+.env

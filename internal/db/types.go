@@ -19,8 +19,19 @@ var Bank2BankId = map[enums.Bank]string{
 	enums.BankGasProm:    "11371",
 }
 
+var ALL_BANKS = getAllBanks()
+
+func getAllBanks() []string {
+	v := make([]string, 0, len(Bank2BankId))
+
+	for _, value := range Bank2BankId {
+		v = append(v, value)
+	}
+	return v
+}
+
 var Cities2GS = map[enums.City]BoundsWithZoom{
-	enums.CityYekaterinburg: BoundsWithZoom{
+	enums.CityYekaterinburg: {
 		Bounds: &interfaces.Bounds{
 			BottomLeft: interfaces.GeographicCoodrinates{
 				Lat: 56.63827841259033,
@@ -33,7 +44,7 @@ var Cities2GS = map[enums.City]BoundsWithZoom{
 		},
 		Zoom: 11,
 	},
-	enums.CityMoscow: BoundsWithZoom{
+	enums.CityMoscow: {
 		Bounds: &interfaces.Bounds{
 			BottomLeft: interfaces.GeographicCoodrinates{
 				Lat: 56.63827841259033,

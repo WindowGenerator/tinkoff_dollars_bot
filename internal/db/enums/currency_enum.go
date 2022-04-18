@@ -12,8 +12,8 @@ import (
 )
 
 const (
-	// CurrencyUnknow is a Currency of type Unknow.
-	CurrencyUnknow Currency = iota
+	// CurrencyAny is a Currency of type Any.
+	CurrencyAny Currency = iota
 	// CurrencyUSD is a Currency of type USD.
 	CurrencyUSD
 	// CurrencyRUB is a Currency of type RUB.
@@ -22,13 +22,13 @@ const (
 	CurrencyEUR
 )
 
-const _CurrencyName = "UnknowUSDRUBEUR"
+const _CurrencyName = "AnyUSDRUBEUR"
 
 var _CurrencyNames = []string{
-	_CurrencyName[0:6],
+	_CurrencyName[0:3],
+	_CurrencyName[3:6],
 	_CurrencyName[6:9],
 	_CurrencyName[9:12],
-	_CurrencyName[12:15],
 }
 
 // CurrencyNames returns a list of possible string values of Currency.
@@ -39,10 +39,10 @@ func CurrencyNames() []string {
 }
 
 var _CurrencyMap = map[Currency]string{
-	CurrencyUnknow: _CurrencyName[0:6],
-	CurrencyUSD:    _CurrencyName[6:9],
-	CurrencyRUB:    _CurrencyName[9:12],
-	CurrencyEUR:    _CurrencyName[12:15],
+	CurrencyAny: _CurrencyName[0:3],
+	CurrencyUSD: _CurrencyName[3:6],
+	CurrencyRUB: _CurrencyName[6:9],
+	CurrencyEUR: _CurrencyName[9:12],
 }
 
 // String implements the Stringer interface.
@@ -54,14 +54,14 @@ func (x Currency) String() string {
 }
 
 var _CurrencyValue = map[string]Currency{
-	_CurrencyName[0:6]:                    CurrencyUnknow,
-	strings.ToLower(_CurrencyName[0:6]):   CurrencyUnknow,
-	_CurrencyName[6:9]:                    CurrencyUSD,
-	strings.ToLower(_CurrencyName[6:9]):   CurrencyUSD,
-	_CurrencyName[9:12]:                   CurrencyRUB,
-	strings.ToLower(_CurrencyName[9:12]):  CurrencyRUB,
-	_CurrencyName[12:15]:                  CurrencyEUR,
-	strings.ToLower(_CurrencyName[12:15]): CurrencyEUR,
+	_CurrencyName[0:3]:                   CurrencyAny,
+	strings.ToLower(_CurrencyName[0:3]):  CurrencyAny,
+	_CurrencyName[3:6]:                   CurrencyUSD,
+	strings.ToLower(_CurrencyName[3:6]):  CurrencyUSD,
+	_CurrencyName[6:9]:                   CurrencyRUB,
+	strings.ToLower(_CurrencyName[6:9]):  CurrencyRUB,
+	_CurrencyName[9:12]:                  CurrencyEUR,
+	strings.ToLower(_CurrencyName[9:12]): CurrencyEUR,
 }
 
 // ParseCurrency attempts to convert a string to a Currency.
