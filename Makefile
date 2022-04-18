@@ -126,11 +126,16 @@ local-test:
 local-lint:
 	./scripts/lint.sh
 
+local-ci: local-lint local-test
+
 format:
 	./scripts/format.sh
 
 install-instruments:
 	./scripts/install-instruments.sh
+
+install-deps:
+	go install ./cmd/main.go
 
 ##################################### ENUMS #####################################
 ENUM_DIR_PREFIX = internal/db/enums

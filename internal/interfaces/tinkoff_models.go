@@ -1,5 +1,7 @@
 package interfaces
 
+import "github.com/WidowGenerator/tinkoff_dollars_bot/internal/db/enums"
+
 type Bounds struct {
 	BottomLeft GeographicCoodrinates `json:"bottomLeft"`
 	TopRight   GeographicCoodrinates `json:"topRight"`
@@ -93,6 +95,8 @@ type TinkoffATMResponse struct {
 }
 
 type TinkoffATM struct {
+	City               *enums.City
+	Amount             *uint
 	TinkoffATMBody     *TinkoffATMBody
 	TinkoffATMResponse *TinkoffATMResponse
 }

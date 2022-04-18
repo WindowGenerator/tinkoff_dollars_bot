@@ -3,7 +3,7 @@
 package enums
 
 // Currency x ENUM(
-// Unknow,
+// Any
 // USD,
 // RUB,
 // EUR

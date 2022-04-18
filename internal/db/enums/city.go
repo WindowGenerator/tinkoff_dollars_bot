@@ -3,7 +3,6 @@
 package enums
 
 // City x ENUM(
-// Unknow,
 // Moscow,
 // Yekaterinburg
 // )

@@ -9,10 +9,9 @@ import (
 )
 
 var commandList = map[string]interface{}{
-	"help":                command.Help,
-	"start":               command.Start,
-	"get_all_atms":        command.GetAllAtms,
-	"setup_notifications": command.SetupNotofications,
+	"help":     command.Help,
+	"start":    command.Start,
+	"get_atms": command.GetAtms,
 }
 
 func cmdHandler(update tgbotapi.Update, bot *tgbotapi.BotAPI) error {

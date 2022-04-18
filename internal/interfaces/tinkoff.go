@@ -4,46 +4,29 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/WidowGenerator/tinkoff_dollars_bot/internal/db/enums"
 )
 
 const clustersUrl string = "https://api.tinkoff.ru/geo/withdraw/clusters"
 
-var testValues = TinkoffATMBody{
-	Bounds: &Bounds{
-		BottomLeft: GeographicCoodrinates{
-			Lat: 56.63827841259033,
-			Lng: 60.33014140617972,
-		},
-		TopRight: GeographicCoodrinates{
-			Lat: 57.005757763347255,
-			Lng: 60.9948142577422,
-		},
-	},
-	Filters: &Filters{
-		ShowUnavailable: true,
-		Currencies:      []string{"USD"},
-	},
-	Zoom: 11,
-}
-
 var ErrBadStatusCode = errors.New("interfaces/tinkoff: Bad status code")
 
-func NewTinkkoffAtmAPI(bounds *Bounds, filters *Filters, zoom uint32) TinkoffATM {
+func NewTinkkoffAtmAPI(tinkoffATMBody *TinkoffATMBody, City *enums.City, Amount *uint) TinkoffATM {
 	return TinkoffATM{
-		TinkoffATMBody: &TinkoffATMBody{
-			Bounds:  bounds,
-			Filters: filters,
-			Zoom:    zoom,
-		},
+		TinkoffATMBody: tinkoffATMBody,
+		City:           City,
+		Amount:         Amount,
 	}
 }
 
 func (tinkoffAtm *TinkoffATM) GetATMs() error {
 	data := TinkoffATMResponse{}
 
-	json_data, err := json.Marshal(testValues)
+	json_data, err := json.Marshal(tinkoffAtm.TinkoffATMBody)
 
 	if err != nil {
 		return err
@@ -73,10 +56,53 @@ func (tinkoffAtm *TinkoffATM) GetATMs() error {
 }
 
 func (tinkoffAtm *TinkoffATM) GetMessage() (string, error) {
-	message := `Информация по банкоматам в городе Екатеринбург\n\n`
-	if len(tinkoffAtm.TinkoffATMResponse.Payload.Clusters) == 0 {
-		return message + "Рядом нет подходящих банкоматов", nil
+	message := fmt.Sprintf(
+		`
+Info by atms in %v
+		`,
+		tinkoffAtm.City,
+	)
+
+	moreBankInfo := ""
+
+	for i := 0; i < len(tinkoffAtm.TinkoffATMResponse.Payload.Clusters); i++ {
+		cluster := tinkoffAtm.TinkoffATMResponse.Payload.Clusters[i]
+
+		for j := 0; j < len(cluster.Points); j++ {
+			point := cluster.Points[j]
+
+			k := 0
+			for k = 0; k < len(point.Limits); k++ {
+				if point.Limits[k].Currency == tinkoffAtm.TinkoffATMBody.Filters.Currencies[0] {
+					break
+				}
+			}
+
+			if point.Limits[k].Amount < *tinkoffAtm.Amount {
+				continue
+			}
+
+			moreBankInfo += fmt.Sprintf(
+				`
+				Address: %v
+				ID: %v
+				Contacts: %v
+				Atm: %v
+				Amount: %v (%v)
+				`,
+				point.Address,
+				point.Id,
+				point.Phone[0],
+				point.Brand.Name,
+				point.Limits[k].Amount,
+				point.Limits[k].Currency,
+			)
+		}
 	}
 
-	return message, nil
+	if len(moreBankInfo) == 0 {
+		return message + "There are no suitable ATMs nearby", nil
+	}
+
+	return message + moreBankInfo, nil
 }

@@ -12,20 +12,17 @@ import (
 )
 
 const (
-	// CityUnknow is a City of type Unknow.
-	CityUnknow City = iota
 	// CityMoscow is a City of type Moscow.
-	CityMoscow
+	CityMoscow City = iota
 	// CityYekaterinburg is a City of type Yekaterinburg.
 	CityYekaterinburg
 )
 
-const _CityName = "UnknowMoscowYekaterinburg"
+const _CityName = "MoscowYekaterinburg"
 
 var _CityNames = []string{
 	_CityName[0:6],
-	_CityName[6:12],
-	_CityName[12:25],
+	_CityName[6:19],
 }
 
 // CityNames returns a list of possible string values of City.
@@ -36,9 +33,8 @@ func CityNames() []string {
 }
 
 var _CityMap = map[City]string{
-	CityUnknow:        _CityName[0:6],
-	CityMoscow:        _CityName[6:12],
-	CityYekaterinburg: _CityName[12:25],
+	CityMoscow:        _CityName[0:6],
+	CityYekaterinburg: _CityName[6:19],
 }
 
 // String implements the Stringer interface.
@@ -50,12 +46,10 @@ func (x City) String() string {
 }
 
 var _CityValue = map[string]City{
-	_CityName[0:6]:                    CityUnknow,
-	strings.ToLower(_CityName[0:6]):   CityUnknow,
-	_CityName[6:12]:                   CityMoscow,
-	strings.ToLower(_CityName[6:12]):  CityMoscow,
-	_CityName[12:25]:                  CityYekaterinburg,
-	strings.ToLower(_CityName[12:25]): CityYekaterinburg,
+	_CityName[0:6]:                   CityMoscow,
+	strings.ToLower(_CityName[0:6]):  CityMoscow,
+	_CityName[6:19]:                  CityYekaterinburg,
+	strings.ToLower(_CityName[6:19]): CityYekaterinburg,
 }
 
 // ParseCity attempts to convert a string to a City.
